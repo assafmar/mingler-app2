@@ -8,10 +8,10 @@
         <!--//==================================================-->
         <div class="img-frame next-user" ref="currUserCard">
           <div class="img-container">
-            <img v-if="nextUser.photos" :src="nextUser.photos && nextUser.photos[0]">
+            <img v-if="nextUser && nextUser.photos" :src="nextUser.photos && nextUser.photos[0]">
           </div>
   
-          <div class="user-details" @click="expand = !expand">
+          <div v-if="nextUser" class="user-details" @click="expand = !expand">
             <h4 class="photo-txt">{{ nextUser.name }}, {{ newDate - nextUser.birth }}
               <md-icon>keyboard_arrow_up</md-icon>
             </h4>
@@ -25,13 +25,13 @@
   
             <div class="img-container" @mousemove="touchMove" @touchmove="touchMove" @mousedown="dragModeTrue" @mouseup="dragModeFalse" @touchstart="dragModeTrue" @touchend="dragModeFalse">
               <div v-if="drageVals.msg" id="v-like-tag" :class="vClass()">{{drageVals.msg}} </div>
-              <img v-if="currUser.photos" :src="currUser.photos && currUser.photos[0]">
+              <img v-if="currUser && currUser.photos" :src="currUser.photos && currUser.photos[0]">
               <!--<p @click="expand = !expand">
                                 <!--<md-icon>keyboard_arrow_down</md-icon>-->
               <!--</p>-->
             </div>
   
-            <div class="user-details" @click="expand = !expand">
+            <div v-if="currUser" class="user-details" @click="expand = !expand">
               <!--<div class="user-details" @click.stop="showUserDetails">-->
   
               <h4 class="photo-txt">
@@ -40,7 +40,7 @@
               </h4>
               <!--<div class="expand" @click.stop="expand = !expand">-->
             </div>
-            <div class="expand">
+            <div v-if="user" class="expand">
               <transition name="slide-fade">
                 <div class="description" v-show="expand" @click="expand = !expand">
                   <!--dhsbt<br>rtvhtrvsyr<br>yceywecy<br>we4tr3tq<br>34tq4t-->
@@ -140,12 +140,12 @@ export default {
     // this.width = this.$refs.card.offsetWidth;
     // this.pushUsers();
     var that = this;
-    setTimeout(function () {
-      that.drageVals.frameEl = document.getElementById("curr-user-frame");
-      that.drageVals.parentEl = document.getElementById("browse-div");
-      that.initEl('mounted.frameEl', that.drageVals.frameEl)
-      that.pushUsers();
-    }, 50);
+    // setTimeout(function () {
+      // that.drageVals.frameEl = document.getElementById("curr-user-frame");
+      // that.drageVals.parentEl = document.getElementById("browse-div");
+      // that.initEl('mounted.frameEl', that.drageVals.frameEl)
+      // that.pushUsers();
+    // }, 50);
   },
   created() {
     console.log(this.nextUser, 'sdfsdfsdfsddsfsf')
@@ -155,10 +155,23 @@ export default {
     this.$store.dispatch({ type: GET_MATCHED });
 
     this.$router.push('Browse');
-    this.pushUsers();
+    // this.pushUsers();
     this.users = this.$store.getters.fetchUsersBrowsed;
 
   },
+
+    watch: {
+    users: function (newUsers) {//
+      if (this.drageVals.dragStatus=== 'init'){
+          console.log('BROWSE.watch.drageVals',this.drageVals.dragStatus);
+          var that = this;
+          // setTimeout(function () {
+              that.pushUsers();
+          // }, 540);
+      }
+    }
+  },
+
   computed: {
     users() {
       var users11 = this.$store.getters.fetchUsersBrowsed;
@@ -698,18 +711,18 @@ export default {
 
 .slide-fade-enter,
 .slide-fade-leave-to {
-  // transform: translateY(-7em);  
+  // transform: translateY(100%);  
   height: 0;
   overflow: hidden;
 }
 
 .slide-fade-down-enter-active {
   transition: all .5s ease;
-  height: 0;
+  // height: 0;
 }
 
 .slide-fade-down-leave-active {
-  height: 0;
+  // height: 0;
   transition: all .8s;
 }
 

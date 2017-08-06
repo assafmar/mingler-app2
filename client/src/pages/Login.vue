@@ -35,6 +35,7 @@
 
 <script>
 import { LOG_IN } from '../store/store'
+//import { GET_BROWSED } from '../store/store'
 
 export default {
   data() {
@@ -49,6 +50,9 @@ export default {
       currUser: function(userExist){
       console.log('LOGIN: user logged in - move to BROWSE?');
       if(userExist){
+    //        this.$store.dispatch({ type: GET_BROWSED })
+    //   .then(x => console.log('login: watch users exist, get browsed',x));
+    // console.log('login: created - after GET_BROWSED');
       console.log('LOGIN: user logged in - user exists - move to BROWSE!!!');
       this.$router.push('Browse');      } 
       }

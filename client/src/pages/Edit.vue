@@ -87,6 +87,8 @@ import { UPLOAD_PHOTO } from '../store/store'
 import axios from 'axios';
 // import axios from 'axios';
 import photoService from '../services/photo.service';
+//import { GET_BROWSED } from '../store/store'
+
 export default {
   data() {
     return {
@@ -123,6 +125,9 @@ export default {
     currUser: function (userExist) {
       console.log('EDIT: user logged in - move to BROWSE?');
       if (userExist) {
+    //               this.$store.dispatch({ type: GET_BROWSED })
+    //   .then(x => console.log('edit: watch users exist, get browsed',x));
+    // console.log('edit: created - after GET_BROWSED');
         console.log('EDIT: user logged in - user exists - move to BROWSE!!!');
         this.$router.push('Browse');
       }
